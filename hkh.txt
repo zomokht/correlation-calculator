@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess The Number</title>
+    <link rel="stylesheet" href="matn.css">
+</head>
+<body dir="rtl">
+    <div id="style">
+        <div id="main">
+       <h2>اگه می تونی عددو حدس بزن :)</h2>
+       <div id="stage1">
+            <p>یک عددو به عنوان حد بالا وارد کن</p>
+            <input type="text" id="maximum"/>
+            <button type="button" id="start">شروع کن</button>
+       </div>
+       <div id="stage2" class="hidden">
+        <p>شما<span id="chances"> 0 </span>بار فرصت حدس زدن دارید.</p>
+        <input type="text" id="guess-number"/>
+        <button type="button" id="guess-button">حدس بزن</button>
+        <p id="status">حدس های شما:</p>
+       </div>
+       <p id="hak"></p>
+    </div>
+    </div>
+    
+    <script src="script.js">
+    </script>
+</body>
+</html>
