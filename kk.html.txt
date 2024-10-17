@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>محاسبه ضریب همبستگی</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input { margin: 5px 0; }
+        #dataInputs { display: none; }
+    </style>
+</head>
+<body>
+    <h2>محاسبه ضریب همبستگی</h2>
+    
+    <div>
+        <label for="dataCount">تعداد داده‌ها:</label>
+        <input type="number" id="dataCount" min="2" required>
+        <button onclick="createInputFields()">ایجاد فیلدهای ورودی</button>
+    </div>
+
+    <div id="dataInputs"></div>
+    <button onclick="calculateCorrelation()" id="calculateBtn" style="display: none;">محاسبه ضریب همبستگی</button>
+    <p id="result"></p>
+
+    <script>
+    function createInputFields() {
+        const n = parseInt(document.getElementById('dataCount').value);
+        if (n < 2) {
+            alert("لطفاً حداقل 2 داده وارد کنید.");
+            return;
+        }
+        
+        let inputsHTML = '';
+        for (let i = 1; i <= n; i++) {
+            inputsHTML += `
+                <div>
+                    <label for="x${i}">مقدار x برای داده ${i}:</label>
+                    <input type="number" id="x${i}" required>
+                    <label for="y${i}">مقدار y برای داده ${i}:</label>
+                    <input type="number" id="y${i}" required>
+                </div>
+            `;
+        }
+        document.getElementById('dataInputs').innerHTML = inputsHTML;
+        document.getElementById('dataInputs').style.display = 'block';
+        document.getElementById('calculateBtn').style.display = 'block';
+    }
+
+    function calculateCorrelation() {
+        const n = parseInt(document.getElementById('dataCount').value);
+        const x = [], y = [];
+
+        for (let i = 1; i <= n; i++) {
+            const xValue = parseFloat(document.getElementById(`x${i}`).value);
+            const yValue = parseFloat(document.getElementById(`y${i}`).value);
+            
+            if (isNaN(xValue) || isNaN(yValue)) {
+                alert(`لطفاً مقادیر معتبر برای داده ${i} وارد کنید.`);
+                return;
+            }
+            
+            x.push(xValue);
+            y.push(yValue);
+        }
+
+        const correlation = correlationCalculation(x, y);
+        document.getElementById("result").innerHTML = `ضریب همبستگی: ${correlation.toFixed(4)}`;
+    }
+
+    function correlationCalculation(x, y) {
+        const n = x.length;
+        let sum_x = 0, sum_y = 0, sum_xy = 0;
+        let sum_x2 = 0, sum_y2 = 0;
+
+        for (let i = 0; i < n; i++) {
+            sum_x += x[i];
+            sum_y += y[i];
+            sum_xy += x[i] * y[i];
+            sum_x2 += x[i] * x[i];
+            sum_y2 += y[i] * y[i];
+        }
+
+        const numerator = n * sum_xy - sum_x * sum_y;
+        const denominator = Math.sqrt((n * sum_x2 - sum_x * sum_x) * (n * sum_y2 - sum_y * sum_y));
+
+        return numerator / denominator;
+    }
+    </script>
+</body>
+</html>
